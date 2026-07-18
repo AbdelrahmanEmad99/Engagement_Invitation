@@ -42,48 +42,40 @@ const useInView = (threshold=0.1) => {
 };
 const FadeUp = ({children,delay=0,distance=30})=>{
   const [ref,v]=useInView();
-  return <div ref={ref} style={{opacity:v?1:0,transform:v?`translateY(0)`:`translateY(${distance}px)`,transition:`opacity 1s ease ${delay}s,transform 1s ease ${delay}s`}}>{children}</div>;
+  return <div ref={ref} style={{opacity:v?1:0,transform:v?`translateY(0)`:`translateY(${distance}px)`,transition:`opacity 0.7s ease ${delay}s,transform 0.7s ease ${delay}s`}}>{children}</div>;
 };
 
 /* ═══════════════ SVG FLOWER COMPONENTS ═══════════════ */
-
-// Full bloom rose — 5 layered petals
 const Rose = ({x=0,y=0,r=1,rotate=0,opacity=1}) => (
   <g transform={`translate(${x},${y}) rotate(${rotate}) scale(${r})`} opacity={opacity}>
-    {/* Outer petals */}
     {[0,72,144,216,288].map((a,i)=>(
       <ellipse key={i} cx={Math.cos(a*Math.PI/180)*14} cy={Math.sin(a*Math.PI/180)*14}
         rx="10" ry="15"
         transform={`rotate(${a+90},${Math.cos(a*Math.PI/180)*14},${Math.sin(a*Math.PI/180)*14})`}
         fill={ROSE} opacity="0.85"/>
     ))}
-    {/* Mid petals */}
     {[36,108,180,252,324].map((a,i)=>(
       <ellipse key={i} cx={Math.cos(a*Math.PI/180)*10} cy={Math.sin(a*Math.PI/180)*10}
         rx="8" ry="12"
         transform={`rotate(${a+90},${Math.cos(a*Math.PI/180)*10},${Math.sin(a*Math.PI/180)*10})`}
         fill={ROSE_LIGHT} opacity="0.9"/>
     ))}
-    {/* Centre */}
     <circle cx="0" cy="0" r="7" fill="#D4607A"/>
     <circle cx="0" cy="0" r="4" fill="#C0506A"/>
     <circle cx="-1" cy="-1" r="1.5" fill={ROSE_LIGHT} opacity="0.6"/>
   </g>
 );
 
-// Peony-style bloom — many ruffly petals
 const Peony = ({x=0,y=0,r=1,rotate=0,opacity=1,color=BLUSH}) => (
   <g transform={`translate(${x},${y}) rotate(${rotate}) scale(${r})`} opacity={opacity}>
     {[0,30,60,90,120,150,180,210,240,270,300,330].map((a,i)=>(
-      <ellipse key={i}
-        cx={Math.cos(a*Math.PI/180)*16} cy={Math.sin(a*Math.PI/180)*16}
+      <ellipse key={i} cx={Math.cos(a*Math.PI/180)*16} cy={Math.sin(a*Math.PI/180)*16}
         rx="9" ry="18"
         transform={`rotate(${a+90},${Math.cos(a*Math.PI/180)*16},${Math.sin(a*Math.PI/180)*16})`}
         fill={color} opacity="0.7"/>
     ))}
     {[0,45,90,135,180,225,270,315].map((a,i)=>(
-      <ellipse key={i}
-        cx={Math.cos(a*Math.PI/180)*9} cy={Math.sin(a*Math.PI/180)*9}
+      <ellipse key={i} cx={Math.cos(a*Math.PI/180)*9} cy={Math.sin(a*Math.PI/180)*9}
         rx="6" ry="12"
         transform={`rotate(${a+90},${Math.cos(a*Math.PI/180)*9},${Math.sin(a*Math.PI/180)*9})`}
         fill={ROSE_LIGHT} opacity="0.85"/>
@@ -93,7 +85,6 @@ const Peony = ({x=0,y=0,r=1,rotate=0,opacity=1,color=BLUSH}) => (
   </g>
 );
 
-// Leaf sprig
 const LeafSprig = ({x=0,y=0,r=1,rotate=0,opacity=0.7}) => (
   <g transform={`translate(${x},${y}) rotate(${rotate}) scale(${r})`} opacity={opacity}>
     <path d="M0,0 Q-8,-20 0,-40" stroke={LEAF} strokeWidth="1.5" fill="none"/>
@@ -103,7 +94,6 @@ const LeafSprig = ({x=0,y=0,r=1,rotate=0,opacity=0.7}) => (
   </g>
 );
 
-// Small blossom (4-petal cherry)
 const Blossom = ({x=0,y=0,r=1,rotate=0,opacity=1}) => (
   <g transform={`translate(${x},${y}) rotate(${rotate}) scale(${r})`} opacity={opacity}>
     {[0,90,180,270].map((a,i)=>(
@@ -117,7 +107,6 @@ const Blossom = ({x=0,y=0,r=1,rotate=0,opacity=1}) => (
   </g>
 );
 
-// Gold botanical accent — small 6-petal
 const GoldBlossom = ({x=0,y=0,r=0.6,opacity=0.6}) => (
   <g transform={`translate(${x},${y}) scale(${r})`} opacity={opacity}>
     {[0,60,120,180,240,300].map((a,i)=>(
@@ -130,50 +119,38 @@ const GoldBlossom = ({x=0,y=0,r=0.6,opacity=0.6}) => (
   </g>
 );
 
-// Full floral scene for the envelope background
-const FloralBackground = ({w=800,h=600,dark=false}) => {
-  const baseOp = dark ? 0.18 : 0.22;
+const FloralBackground = ({w=800,h=600}) => {
+  const baseOp = 0.22;
   return (
     <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none"}} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="xMidYMid slice">
-      {/* Corners — large rose clusters */}
-      <Rose x={55}  y={65}  r={1.6}  rotate={-20} opacity={baseOp*1.2}/>
-      <Rose x={20}  y={110} r={1.1}  rotate={15}  opacity={baseOp*0.8}/>
+      <Rose x={55}  y={65}  r={1.6} rotate={-20} opacity={baseOp*1.2}/>
+      <Rose x={20}  y={110} r={1.1} rotate={15}  opacity={baseOp*0.8}/>
       <LeafSprig x={40} y={40} r={1.4} rotate={10} opacity={baseOp*0.9}/>
       <Peony x={110} y={40} r={1.2} rotate={-10} opacity={baseOp} color={BLUSH}/>
       <Blossom x={145} y={80} r={0.9} rotate={20} opacity={baseOp*0.9}/>
-
-      <Rose x={w-55} y={65}  r={1.6}  rotate={20}  opacity={baseOp*1.2}/>
-      <Rose x={w-20} y={110} r={1.1}  rotate={-15} opacity={baseOp*0.8}/>
+      <Rose x={w-55} y={65}  r={1.6} rotate={20}  opacity={baseOp*1.2}/>
+      <Rose x={w-20} y={110} r={1.1} rotate={-15} opacity={baseOp*0.8}/>
       <LeafSprig x={w-40} y={40} r={1.4} rotate={-10} opacity={baseOp*0.9}/>
       <Peony x={w-110} y={40} r={1.2} rotate={10} opacity={baseOp} color={BLUSH}/>
       <Blossom x={w-145} y={80} r={0.9} rotate={-20} opacity={baseOp*0.9}/>
-
       <Rose x={55}  y={h-65}  r={1.6} rotate={20}  opacity={baseOp*1.2}/>
       <Rose x={20}  y={h-110} r={1.1} rotate={-15} opacity={baseOp*0.8}/>
       <LeafSprig x={40} y={h-20} r={1.4} rotate={-30} opacity={baseOp*0.9}/>
       <Peony x={110} y={h-40} r={1.2} rotate={15} opacity={baseOp} color={BLUSH}/>
-
       <Rose x={w-55} y={h-65}  r={1.6} rotate={-20} opacity={baseOp*1.2}/>
       <Rose x={w-20} y={h-110} r={1.1} rotate={15}  opacity={baseOp*0.8}/>
       <LeafSprig x={w-40} y={h-20} r={1.4} rotate={30} opacity={baseOp*0.9}/>
       <Peony x={w-110} y={h-40} r={1.2} rotate={-15} opacity={baseOp} color={BLUSH}/>
-
-      {/* Mid edges */}
       <Peony x={0} y={h/2} r={1.4} rotate={90} opacity={baseOp} color={ROSE_LIGHT}/>
       <LeafSprig x={30} y={h/2-30} r={1.2} rotate={80} opacity={baseOp*0.8}/>
       <Peony x={w} y={h/2} r={1.4} rotate={-90} opacity={baseOp} color={ROSE_LIGHT}/>
       <LeafSprig x={w-30} y={h/2-30} r={1.2} rotate={-80} opacity={baseOp*0.8}/>
-
-      {/* Scattered blossoms & gold dots mid-field */}
       <Blossom x={w/2} y={30} r={0.8} opacity={baseOp*0.7}/>
       <Blossom x={w/2} y={h-30} r={0.8} opacity={baseOp*0.7}/>
       <GoldBlossom x={w/4} y={h/4} r={0.7} opacity={baseOp}/>
       <GoldBlossom x={w*3/4} y={h/4} r={0.7} opacity={baseOp}/>
       <GoldBlossom x={w/4} y={h*3/4} r={0.6} opacity={baseOp*0.8}/>
       <GoldBlossom x={w*3/4} y={h*3/4} r={0.6} opacity={baseOp*0.8}/>
-      <GoldBlossom x={w/2} y={h/2} r={0.5} opacity={baseOp*0.5}/>
-
-      {/* Extra small leaves */}
       {[[w/3,h/5],[w*2/3,h/5],[w/3,h*4/5],[w*2/3,h*4/5]].map(([lx,ly],i)=>(
         <LeafSprig key={i} x={lx} y={ly} r={0.9} rotate={i*45-30} opacity={baseOp*0.6}/>
       ))}
@@ -181,51 +158,36 @@ const FloralBackground = ({w=800,h=600,dark=false}) => {
   );
 };
 
-// Floating petals — animated
 const FloatingPetals = () => {
   const petals = [
-    {left:"8%",  size:18, delay:0,   dur:7,  color:BLUSH,     startY:-20},
-    {left:"18%", size:12, delay:2.5, dur:9,  color:ROSE_LIGHT,startY:-10},
-    {left:"32%", size:14, delay:1,   dur:8,  color:GOLD_PALE, startY:-15},
-    {left:"50%", size:10, delay:3.5, dur:10, color:BLUSH,     startY:-8},
-    {left:"65%", size:16, delay:0.8, dur:7.5,color:ROSE_LIGHT,startY:-20},
-    {left:"78%", size:11, delay:2,   dur:9,  color:GOLD_PALE, startY:-12},
-    {left:"88%", size:13, delay:4,   dur:8,  color:BLUSH,     startY:-10},
-    {left:"24%", size:9,  delay:1.5, dur:11, color:ROSE,      startY:-5},
-    {left:"55%", size:15, delay:5,   dur:6,  color:BLUSH,     startY:-18},
-    {left:"92%", size:10, delay:3,   dur:8,  color:ROSE_LIGHT,startY:-8},
+    {left:"8%",  size:18, delay:0,   dur:7,  color:BLUSH},
+    {left:"18%", size:12, delay:2.5, dur:9,  color:ROSE_LIGHT},
+    {left:"32%", size:14, delay:1,   dur:8,  color:GOLD_PALE},
+    {left:"50%", size:10, delay:3.5, dur:10, color:BLUSH},
+    {left:"65%", size:16, delay:0.8, dur:7.5,color:ROSE_LIGHT},
+    {left:"78%", size:11, delay:2,   dur:9,  color:GOLD_PALE},
+    {left:"88%", size:13, delay:4,   dur:8,  color:BLUSH},
+    {left:"24%", size:9,  delay:1.5, dur:11, color:ROSE},
+    {left:"55%", size:15, delay:5,   dur:6,  color:BLUSH},
+    {left:"92%", size:10, delay:3,   dur:8,  color:ROSE_LIGHT},
   ];
   return (
     <div style={{position:"absolute",inset:0,overflow:"hidden",pointerEvents:"none",zIndex:1}}>
       {petals.map((p,i)=>(
-        <div key={i} style={{
-          position:"absolute", left:p.left, top:p.startY,
-          width:p.size, height:p.size,
-          animation:`petalFall ${p.dur}s linear ${p.delay}s infinite`,
-          opacity:0.55,
-        }}>
+        <div key={i} style={{position:"absolute",left:p.left,top:-20,width:p.size,height:p.size,animation:`petalFall ${p.dur}s linear ${p.delay}s infinite`,opacity:0.55}}>
           <svg viewBox="0 0 20 20"><ellipse cx="10" cy="10" rx="6" ry="10" fill={p.color} transform="rotate(-20,10,10)"/></svg>
         </div>
       ))}
-      <style>{`
-        @keyframes petalFall {
-          0%   { transform: translateY(0)   rotate(0deg)   translateX(0);   opacity:0; }
-          10%  { opacity: 0.55; }
-          85%  { opacity: 0.4; }
-          100% { transform: translateY(100vh) rotate(360deg) translateX(40px); opacity:0; }
-        }
-      `}</style>
+      <style>{`@keyframes petalFall{0%{transform:translateY(0) rotate(0deg) translateX(0);opacity:0}10%{opacity:0.55}85%{opacity:0.4}100%{transform:translateY(100vh) rotate(360deg) translateX(40px);opacity:0}}`}</style>
     </div>
   );
 };
 
-/* ═══════════════ SHARED COMPONENTS ═══════════════ */
+/* ═══════════════ SHARED ═══════════════ */
 const GoldDivider = ({width=300}) => (
   <div style={{display:"flex",alignItems:"center",gap:10,margin:"22px auto",maxWidth:width}}>
     <div style={{flex:1,height:"0.5px",background:`linear-gradient(to right,transparent,${GOLD})`}}/>
-    <svg width="22" height="22" viewBox="0 0 22 22">
-      <path d="M11 1 L12.8 8.5 L20 11 L12.8 13.5 L11 21 L9.2 13.5 L2 11 L9.2 8.5Z" fill={GOLD}/>
-    </svg>
+    <svg width="22" height="22" viewBox="0 0 22 22"><path d="M11 1 L12.8 8.5 L20 11 L12.8 13.5 L11 21 L9.2 13.5 L2 11 L9.2 8.5Z" fill={GOLD}/></svg>
     <div style={{flex:1,height:"0.5px",background:`linear-gradient(to left,transparent,${GOLD})`}}/>
   </div>
 );
@@ -240,25 +202,26 @@ const FiligreeCorner = ({rotate=0}) => (
       <circle cx="27" cy="27" r="1.2" fill={GOLD} stroke="none"/>
       <path d="M17 5 Q17 17 29 17" opacity="0.45"/>
       <path d="M5 17 Q17 17 17 29" opacity="0.45"/>
-      <path d="M5 5 Q9 22 22 22" opacity="0.3" strokeDasharray="2 3"/>
     </g>
   </svg>
 );
 
-/* ═══════════════ ENVELOPE HERO ═══════════════ */
+/* ═══════════════ ENVELOPE ═══════════════ */
 const EnvelopeHero = ({onOpen}) => {
   const [phase, setPhase] = useState("idle");
   const W=480, H=320;
+
   const handleClick = () => {
     if(phase!=="idle") return;
     setPhase("lifting");
-    setTimeout(()=>setPhase("open"),900);
-    setTimeout(()=>{setPhase("done");onOpen();},2600);
+    setTimeout(()=>setPhase("open"), 400);       // faster: was 900
+    setTimeout(()=>{setPhase("done");onOpen();}, 1200); // faster: was 2600
   };
-  const flapR    = phase==="open"||phase==="done" ? -178 : 0;
-  const sealOp   = phase==="lifting"||phase==="open"||phase==="done" ? 0 : 1;
-  const sealSc   = phase==="lifting" ? 1.5 : 1;
-  const cardY    = phase==="open" ? -100 : 0;
+
+  const flapR  = phase==="open"||phase==="done" ? -178 : 0;
+  const sealOp = phase==="lifting"||phase==="open"||phase==="done" ? 0 : 1;
+  const sealSc = phase==="lifting" ? 1.5 : 1;
+  const cardY  = phase==="open" ? -100 : 0;
 
   return (
     <div onClick={handleClick} style={{
@@ -267,24 +230,31 @@ const EnvelopeHero = ({onOpen}) => {
       background:`linear-gradient(160deg,#FDF5E8 0%,#F5E8CC 40%,#EDD9B0 100%)`,
       cursor:phase==="idle"?"pointer":"default",
       position:"relative",overflow:"hidden",
-      opacity:phase==="done"?0:1,transition:"opacity 0.8s ease",
+      opacity:phase==="done"?0:1,transition:"opacity 0.5s ease",
       pointerEvents:phase==="done"?"none":"auto",
     }}>
-      {/* Rich floral background */}
       <FloralBackground w={1200} h={800}/>
-
-      {/* Soft vignette */}
-      <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at center, transparent 40%, rgba(237,217,176,0.55) 100%)",pointerEvents:"none"}}/>
-
-      {/* Floating petals */}
+      <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at center,transparent 40%,rgba(237,217,176,0.55) 100%)",pointerEvents:"none"}}/>
       <FloatingPetals/>
 
       {/* Heading */}
       <div style={{textAlign:"center",marginBottom:44,zIndex:3,position:"relative"}}>
-        <p style={{fontFamily:"Lato,sans-serif",fontSize:11,letterSpacing:"0.38em",textTransform:"uppercase",color:PLUM,margin:"0 0 10px",opacity:0.8}}>
-          You are cordially invited to celebrate
+        {/* FIX 1 — bigger subtitle */}
+        <p style={{
+          fontFamily:"'Cormorant Garamond', Georgia, serif",
+          fontSize:"clamp(1.3rem,2.5vw,1.45rem)",
+          fontWeight:900,
+          letterSpacing:"0.08em",
+          lineHeight:1.5,
+          color:PLUM,
+          margin:"0 auto 14px",
+          opacity:0.92,
+          maxWidth:"720px",
+          textShadow:"0 1px 0 rgba(255,255,255,0.35)",
+        }}>
+          We warmly invite you to celebrate our engagement.
         </p>
-        <h1 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5.5vw,3.6rem)",fontWeight:600,color:NAVY,margin:0,lineHeight:1.1}}>
+        <h1 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2.2rem,6vw,4rem)",fontWeight:600,color:NAVY,margin:0,lineHeight:1.1}}>
           Abdulrahman <span style={{color:GOLD,fontStyle:"italic"}}>&</span> Haneen
         </h1>
         <div style={{display:"flex",alignItems:"center",gap:8,justifyContent:"center",marginTop:10}}>
@@ -313,28 +283,23 @@ const EnvelopeHero = ({onOpen}) => {
             <clipPath id="envClip"><rect x="2" y="2" width={W-4} height={H-4} rx="8"/></clipPath>
           </defs>
 
-          {/* Body */}
           <rect x="0" y="0" width={W} height={H} rx="8" fill="url(#envBody)" stroke={GOLD} strokeWidth="1.5"/>
           <rect x="7" y="7" width={W-14} height={H-14} rx="5" fill="none" stroke={GOLD} strokeWidth="0.5" opacity="0.55"/>
 
-          {/* Bottom lining */}
           <polygon points={`0,${H} ${W/2},${H*0.52} ${W},${H}`} fill="url(#envLining)" clipPath="url(#envClip)"/>
           <g clipPath="url(#envClip)" opacity="0.2">
             {[0.55,0.65,0.75,0.85,0.95].map((t,i)=>(
-              <line key={i} x1={W/2*(1-t)} y1={H} x2={W/2} y2={H*0.52+(H-H*0.52)*t*0.25} stroke={GOLD_LIGHT} strokeWidth="0.6"/>
+              <line key={`a${i}`} x1={W/2*(1-t)} y1={H} x2={W/2} y2={H*0.52+(H-H*0.52)*t*0.25} stroke={GOLD_LIGHT} strokeWidth="0.6"/>
             ))}
             {[0.55,0.65,0.75,0.85,0.95].map((t,i)=>(
-              <line key={i} x1={W/2+(W/2*t)} y1={H} x2={W/2} y2={H*0.52+(H-H*0.52)*t*0.25} stroke={GOLD_LIGHT} strokeWidth="0.6"/>
+              <line key={`b${i}`} x1={W/2+(W/2*t)} y1={H} x2={W/2} y2={H*0.52+(H-H*0.52)*t*0.25} stroke={GOLD_LIGHT} strokeWidth="0.6"/>
             ))}
           </g>
-
-          {/* Side folds */}
           <polygon points={`0,0 0,${H} ${W/2},${H*0.52}`} fill="rgba(0,0,0,0.028)" clipPath="url(#envClip)"/>
           <polygon points={`${W},0 ${W},${H} ${W/2},${H*0.52}`} fill="rgba(255,255,255,0.025)" clipPath="url(#envClip)"/>
           <polygon points={`0,0 0,${H} ${W/2},${H*0.52}`} fill="none" stroke={ENV_SHADOW} strokeWidth="1" opacity="0.6" clipPath="url(#envClip)"/>
           <polygon points={`${W},0 ${W},${H} ${W/2},${H*0.52}`} fill="none" stroke={ENV_SHADOW} strokeWidth="1" opacity="0.6" clipPath="url(#envClip)"/>
 
-          {/* Floral decoration on envelope body */}
           <g clipPath="url(#envClip)" opacity="0.28">
             <Rose x={60}  y={H-50} r={1.1} rotate={-15}/>
             <LeafSprig x={30} y={H-20} r={1.0} rotate={-20}/>
@@ -361,7 +326,7 @@ const EnvelopeHero = ({onOpen}) => {
           </g>
 
           {/* Card peeking */}
-          <g transform={`translate(${W/2},${H*0.6})`} style={{transform:`translate(${W/2}px,${H*0.6}px) translateY(${cardY}px)`,transition:"transform 1s cubic-bezier(0.34,1.56,0.64,1) 0.35s"}}>
+          <g style={{transform:`translate(${W/2}px,${H*0.6}px) translateY(${cardY}px)`,transition:"transform 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.15s"}}>
             <rect x="-108" y="-54" width="216" height="76" rx="2" fill="#FFFBF5" stroke={GOLD} strokeWidth="0.9" opacity="0.95"/>
             <g opacity="0.35"><Rose x={-88} y={-16} r={0.45} rotate={-10}/><Rose x={88} y={-16} r={0.45} rotate={10}/></g>
             <text x="0" y="-28" textAnchor="middle" fontFamily="Lato,sans-serif" fontSize="8" fill={GOLD} letterSpacing="2.5">WE'RE ENGAGED</text>
@@ -370,15 +335,14 @@ const EnvelopeHero = ({onOpen}) => {
             <text x="0" y="12" textAnchor="middle" fontFamily="Lato,sans-serif" fontSize="8" fill={GOLD} letterSpacing="1.5">25 · 07 · 2026</text>
           </g>
 
-          {/* Flap */}
-          <g style={{transformOrigin:`${W/2}px 0px`,transform:`perspective(900px) rotateX(${flapR}deg)`,transition:"transform 1.2s cubic-bezier(0.65,-0.1,0.3,1.1)"}}>
+          {/* Flap — faster transition */}
+          <g style={{transformOrigin:`${W/2}px 0px`,transform:`perspective(900px) rotateX(${flapR}deg)`,transition:"transform 0.6s cubic-bezier(0.65,-0.1,0.3,1.1)"}}>
             <polygon points={`0,0 ${W},0 ${W/2},${H*0.52}`} fill="url(#envLining)"/>
             <g opacity="0.15">
               {[0.15,0.3,0.5,0.7,0.85].map((t,i)=>(
                 <line key={i} x1={W*t} y1="0" x2={W/2} y2={H*0.52} stroke={GOLD_LIGHT} strokeWidth="0.7"/>
               ))}
             </g>
-            {/* Floral lining on flap */}
             <g opacity="0.22">
               <Rose x={W/2} y={20} r={0.7} rotate={0}/>
               <Blossom x={W/2-55} y={30} r={0.7} rotate={-15}/>
@@ -388,7 +352,6 @@ const EnvelopeHero = ({onOpen}) => {
             </g>
             <polygon points={`2,0 ${W-2},0 ${W/2},${H*0.495}`} fill="url(#flapGrad)"/>
             <polygon points={`2,0 ${W-2},0 ${W/2},${H*0.495}`} fill="none" stroke={GOLD} strokeWidth="1.2"/>
-            {/* Flap floral */}
             <g opacity="0.3">
               <Rose x={W/2} y={H*0.18} r={0.7} rotate={5}/>
               <LeafSprig x={W/2-25} y={H*0.15} r={0.65} rotate={70}/>
@@ -399,8 +362,7 @@ const EnvelopeHero = ({onOpen}) => {
           </g>
 
           {/* Wax seal */}
-          <g style={{transformOrigin:`${W/2}px ${H*0.49}px`,transform:`translate(${W/2}px,${H*0.49}px) scale(${sealSc})`,opacity:sealOp,transition:"opacity 0.45s ease,transform 0.55s cubic-bezier(0.34,1.56,0.64,1)"}}>
-            {/* Drips */}
+          <g style={{transformOrigin:`${W/2}px ${H*0.49}px`,transform:`translate(${W/2}px,${H*0.49}px) scale(${sealSc})`,opacity:sealOp,transition:"opacity 0.3s ease,transform 0.35s cubic-bezier(0.34,1.56,0.64,1)"}}>
             {[[-22,-26],[22,-26],[0,-33],[-12,-30],[12,-30]].map(([dx,dy],i)=>(
               <ellipse key={i} cx={dx} cy={dy} rx="4.5" ry="3.5" fill={PLUM} opacity="0.55"/>
             ))}
@@ -415,7 +377,6 @@ const EnvelopeHero = ({onOpen}) => {
             <circle cx="0" cy="-1" r="1.8" fill={GOLD_LIGHT} opacity="0.85"/>
           </g>
 
-          {/* Corner ornaments */}
           {[[18,18,0],[W-18,18,90],[18,H-18,270],[W-18,H-18,180]].map(([x,y,r],i)=>(
             <g key={i} transform={`translate(${x},${y}) rotate(${r})`}>
               <path d="M0,0 L0,-12 M0,0 L12,0 M0,0 L9,-9" stroke={GOLD} strokeWidth="0.8" fill="none" opacity="0.55"/>
@@ -424,41 +385,75 @@ const EnvelopeHero = ({onOpen}) => {
           ))}
         </svg>
 
+        {/* FIX 3 — big, centered, glowing "Open" CTA */}
         {phase==="idle" && (
-          <p style={{textAlign:"center",fontFamily:"Lato,sans-serif",fontSize:11,letterSpacing:"0.3em",textTransform:"uppercase",color:PLUM,marginTop:22,opacity:0.65,animation:"breathe 2.2s ease-in-out infinite"}}>
-            ✦ &nbsp;Tap to open&nbsp; ✦
-          </p>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",marginTop:28,gap:10}}>
+            {/* Glowing pill button */}
+            <button
+              onClick={handleClick}
+              style={{
+                fontFamily:"'Cormorant Garamond',Georgia,serif",
+                fontSize:"clamp(1.05rem,2.5vw,1.3rem)",
+                letterSpacing:"0.22em",
+                fontWeight:600,
+                color:"#fff",
+                background:`linear-gradient(135deg,${PLUM_MID} 0%,${PLUM_DARK} 100%)`,
+                border:`1.5px solid ${GOLD}`,
+                borderRadius:40,
+                padding:"14px 40px",
+                cursor:"pointer",
+                boxShadow:`0 0 0 0 ${GOLD}55`,
+                animation:"goldGlow 2s ease-in-out infinite",
+                position:"relative",
+                overflow:"hidden",
+              }}
+            >
+              <span style={{position:"relative",zIndex:1}}>✦ &nbsp;Open Your Invitation&nbsp; ✦</span>
+              {/* shimmer overlay */}
+              <span style={{
+                position:"absolute",inset:0,
+                background:"linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.18) 50%,transparent 60%)",
+                animation:"shimmer 2.4s ease-in-out infinite",
+                borderRadius:40,
+              }}/>
+            </button>
+
+            <p style={{
+              fontFamily:"Lato,sans-serif",fontSize:12,
+              letterSpacing:"0.18em",textTransform:"uppercase",
+              color:PLUM,opacity:0.6,margin:0,
+            }}>
+              {/* tap the envelope or the button above */}
+            </p>
+          </div>
         )}
       </div>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap');
-        @keyframes breathe{0%,100%{opacity:0.35;transform:scale(1)}50%{opacity:0.75;transform:scale(1.03)}}
+        @keyframes bounceDown{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+        @keyframes goldGlow{0%,100%{box-shadow:0 0 12px 2px ${GOLD}44,0 4px 20px ${PLUM}55}50%{box-shadow:0 0 28px 8px ${GOLD}88,0 8px 32px ${PLUM}88}}
+        @keyframes shimmer{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
       `}</style>
     </div>
   );
 };
 
-/* ═══════════════ INVITATION CARD SECTION ═══════════════ */
+/* ═══════════════ INVITATION CARD ═══════════════ */
 const InvitationCard = () => (
   <section style={{
     minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
     background:`linear-gradient(155deg,#FDF8F0 0%,#F8EFE0 35%,#F2E3CC 70%,#EAD5B5 100%)`,
     padding:"64px 20px",position:"relative",overflow:"hidden",
   }}>
-    {/* Full botanical background */}
     <FloralBackground w={1400} h={900}/>
-
-    {/* Floating petals */}
     <FloatingPetals/>
-
-    {/* Vignette */}
     <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse at center,transparent 30%,rgba(242,227,204,0.5) 100%)",pointerEvents:"none",zIndex:1}}/>
 
     <FadeUp>
       <div style={{
         maxWidth:600,width:"100%",
-        background:"rgba(255,253,247,0.88)",
+        background:"rgba(255,253,247,0.9)",
         backdropFilter:"blur(12px)",
         border:`1px solid ${GOLD}77`,
         borderRadius:4,
@@ -466,19 +461,17 @@ const InvitationCard = () => (
         boxShadow:`0 40px 100px rgba(92,32,82,0.13),0 12px 32px rgba(212,175,55,0.14),inset 0 0 60px rgba(255,245,210,0.25)`,
         position:"relative",textAlign:"center",zIndex:2,
       }}>
-        {/* Triple inset borders */}
         <div style={{position:"absolute",inset:8, border:`0.5px solid ${GOLD}55`,borderRadius:2,pointerEvents:"none"}}/>
         <div style={{position:"absolute",inset:14,border:`0.5px solid ${GOLD}33`,borderRadius:1,pointerEvents:"none"}}/>
         <div style={{position:"absolute",inset:20,border:`0.5px solid ${GOLD}18`,borderRadius:1,pointerEvents:"none"}}/>
 
-        {/* Filigree corners */}
         {[[0,0,0],[1,0,90],[0,1,270],[1,1,180]].map(([rx,ry,rot],i)=>(
           <div key={i} style={{position:"absolute",[ry?"bottom":"top"]:0,[rx?"right":"left"]:0,zIndex:3}}>
             <FiligreeCorner rotate={rot}/>
           </div>
         ))}
 
-        {/* Floral corner sprays on card */}
+        {/* Card corner florals */}
         <div style={{position:"absolute",top:-8,left:-8,opacity:0.55,pointerEvents:"none"}}>
           <svg width="120" height="120" viewBox="0 0 120 120">
             <Rose x={30} y={30} r={1.1} rotate={-10}/>
@@ -501,73 +494,93 @@ const InvitationCard = () => (
             <Blossom x={68} y={18} r={0.7} rotate={8}/>
           </svg>
         </div>
-        <div style={{position:"absolute",bottom:-8,right:-8,opacity:0.5,pointerEvents:"none",transform:"scale(-1,−1) scaleX(-1) scaleY(-1)"}}>
+        <div style={{position:"absolute",bottom:-8,right:-8,opacity:0.5,pointerEvents:"none",transform:"scaleX(-1) scaleY(-1)"}}>
           <svg width="120" height="100" viewBox="0 0 120 100">
             <Rose x={30} y={30} r={1.0} rotate={10}/>
             <LeafSprig x={12} y={18} r={0.85} rotate={-20}/>
           </svg>
         </div>
 
-        {/* Content */}
-        <p style={{fontFamily:"Lato,sans-serif",fontSize:10,letterSpacing:"0.38em",textTransform:"uppercase",color:GOLD,margin:"0 0 16px",position:"relative",zIndex:2}}>
+        {/* FIX 1 — larger label text */}
+        <p style={{fontFamily:"Lato,sans-serif",fontSize:14,letterSpacing:"0.26em",textTransform:"uppercase",color:GOLD,margin:"0 0 16px",position:"relative",zIndex:2}}>
           Together with their families
         </p>
 
-        <h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.4rem,3.5vw,2rem)",fontWeight:400,color:PLUM,margin:"0 0 4px",lineHeight:1.3,letterSpacing:"0.04em",position:"relative",zIndex:2}}>
+        <h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.6rem,3.5vw,2.2rem)",fontWeight:400,color:PLUM,margin:"0 0 4px",lineHeight:1.3,position:"relative",zIndex:2}}>
           We're Getting
         </h2>
-        <h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(3rem,7.5vw,5rem)",fontWeight:600,color:NAVY,margin:"0 0 4px",lineHeight:1,fontStyle:"italic",letterSpacing:"-0.02em",position:"relative",zIndex:2}}>
+        <h2 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(3rem,7.5vw,5rem)",fontWeight:600,color:NAVY,margin:"0 0 4px",lineHeight:1,fontStyle:"italic",position:"relative",zIndex:2}}>
           Engaged!
         </h2>
 
         <GoldDivider width={340}/>
 
-        {/* Names */}
         <div style={{margin:"28px 0",animation:"floatNames 5s ease-in-out infinite",position:"relative",zIndex:2}}>
-          <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5.5vw,3.4rem)",fontWeight:500,color:NAVY,margin:"0 0 2px",lineHeight:1.2}}>
-            Abdulrahman
-          </p>
+          <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5.5vw,3.4rem)",fontWeight:500,color:NAVY,margin:"0 0 2px",lineHeight:1.2}}>Abdulrahman</p>
           <div style={{display:"flex",alignItems:"center",gap:14,justifyContent:"center",margin:"10px 0"}}>
             <div style={{width:44,height:"0.5px",background:`linear-gradient(to right,transparent,${GOLD})`}}/>
             <svg width="22" height="22" viewBox="0 0 24 24" fill={ROSE}><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg>
             <div style={{width:44,height:"0.5px",background:`linear-gradient(to left,transparent,${GOLD})`}}/>
           </div>
-          <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5.5vw,3.4rem)",fontWeight:500,color:PLUM,margin:0,lineHeight:1.2}}>
-            Haneen
-          </p>
+          <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5.5vw,3.4rem)",fontWeight:500,color:PLUM,margin:0,lineHeight:1.2}}>Haneen</p>
         </div>
 
         <GoldDivider width={340}/>
 
-        {/* Details */}
-        <div style={{marginTop:28,display:"flex",flexDirection:"column",gap:16,position:"relative",zIndex:2}}>
+        {/* FIX 1 — bigger detail text + FIX 4 — venue button */}
+        <div style={{marginTop:28,display:"flex",flexDirection:"column",gap:20,position:"relative",zIndex:2}}>
           {[
             {label:"Date",  value:"Saturday · 25th of July, 2026", href:null},
-            {label:"Time",  value:"Eight o'clock in the evening",    href:null},
-            {label:"Venue", value:"Nile Plaza at Nile Club · Cairo", href:"https://maps.app.goo.gl/R2HFLrKUPdvUFGA79"},
+            {label:"Time",  value:"Eight o'clock in the evening",   href:null},
           ].map((item,i)=>(
             <div key={i}>
-              <p style={{fontFamily:"Lato,sans-serif",fontSize:9,letterSpacing:"0.32em",textTransform:"uppercase",color:GOLD,margin:"0 0 4px"}}>{item.label}</p>
-              {item.href ? (
-                <a href={item.href} target="_blank" rel="noopener noreferrer"
-                  style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1rem,2.5vw,1.2rem)",color:NAVY,display:"inline-flex",alignItems:"center",gap:7,textDecoration:"none",borderBottom:`1px solid ${GOLD}55`,paddingBottom:2,transition:"color 0.2s,border-color 0.2s"}}
-                  onMouseEnter={e=>{e.currentTarget.style.color=GOLD;e.currentTarget.style.borderColor=GOLD;}}
-                  onMouseLeave={e=>{e.currentTarget.style.color=NAVY;e.currentTarget.style.borderColor=`${GOLD}55`;}}
-                >
-                  {item.value}
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{opacity:0.6}}>
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
-                </a>
-              ) : (
-                <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1rem,2.5vw,1.2rem)",color:NAVY,margin:0}}>{item.value}</p>
-              )}
+              <p style={{fontFamily:"Lato,sans-serif",fontSize:12,letterSpacing:"0.28em",textTransform:"uppercase",color:GOLD,margin:"0 0 5px"}}>{item.label}</p>
+              <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.15rem,2.8vw,1.4rem)",color:NAVY,margin:0}}>{item.value}</p>
             </div>
           ))}
+
+          {/* FIX 4 — Venue as a standout button with pulsing map pin */}
+          <div>
+            <p style={{fontFamily:"Lato,sans-serif",fontSize:12,letterSpacing:"0.28em",textTransform:"uppercase",color:GOLD,margin:"0 0 10px"}}>Venue</p>
+            <a
+              href="https://maps.app.goo.gl/R2HFLrKUPdvUFGA79"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display:"inline-flex",alignItems:"center",gap:12,
+                textDecoration:"none",
+                background:`linear-gradient(135deg,${PLUM} 0%,${PLUM_DARK} 100%)`,
+                border:`1.5px solid ${GOLD}99`,
+                borderRadius:50,
+                padding:"13px 26px",
+                boxShadow:`0 4px 20px rgba(92,32,82,0.35),0 0 0 0 ${GOLD}44`,
+                animation:"venuePulse 2.2s ease-in-out infinite",
+                transition:"transform 0.2s ease,box-shadow 0.2s ease",
+                cursor:"pointer",
+              }}
+              onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.04)";e.currentTarget.style.boxShadow=`0 8px 32px rgba(92,32,82,0.5),0 0 0 8px ${GOLD}22`;}}
+              onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow=`0 4px 20px rgba(92,32,82,0.35)`;}}
+            >
+              {/* Pulsing pin icon */}
+              <span style={{position:"relative",display:"flex",alignItems:"center",justifyContent:"center",width:30,height:30}}>
+                <span style={{position:"absolute",width:28,height:28,borderRadius:"50%",background:`${GOLD}33`,animation:"pinRipple 1.6s ease-out infinite"}}/>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill={GOLD}/>
+                  <circle cx="12" cy="9" r="2.5" fill={PLUM_DARK}/>
+                </svg>
+              </span>
+              <span style={{display:"flex",flexDirection:"column",alignItems:"flex-start"}}>
+                <span style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.05rem,2.5vw,1.3rem)",fontWeight:600,color:"#fff",lineHeight:1.2}}>
+                  Nile Plaza at Nile Club
+                </span>
+                <span style={{fontFamily:"Lato,sans-serif",fontSize:11,color:`${GOLD_LIGHT}cc`,letterSpacing:"0.12em"}}>
+                  Cairo · Tap to view on maps ↗
+                </span>
+              </span>
+            </a>
+          </div>
         </div>
 
-        {/* Bottom ornament */}
         <div style={{marginTop:28,position:"relative",zIndex:2}}>
           <svg width="160" height="28" viewBox="0 0 160 28">
             <line x1="0" y1="14" x2="58" y2="14" stroke={GOLD} strokeWidth="0.6" opacity="0.55"/>
@@ -577,11 +590,16 @@ const InvitationCard = () => (
         </div>
       </div>
     </FadeUp>
-    <style>{`@keyframes floatNames{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}`}</style>
+
+    <style>{`
+      @keyframes floatNames{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+      @keyframes venuePulse{0%,100%{box-shadow:0 4px 20px rgba(92,32,82,0.35),0 0 0 0 ${GOLD}55}50%{box-shadow:0 6px 28px rgba(92,32,82,0.5),0 0 0 6px ${GOLD}22}}
+      @keyframes pinRipple{0%{transform:scale(0.7);opacity:0.9}100%{transform:scale(2.2);opacity:0}}
+    `}</style>
   </section>
 );
 
-/* ═══════════════ COUNTDOWN SECTION ═══════════════ */
+/* ═══════════════ COUNTDOWN ═══════════════ */
 const Countdown = () => {
   const time = useCountdown("2026-07-25T20:00:00");
   return (
@@ -590,30 +608,25 @@ const Countdown = () => {
       background:`linear-gradient(150deg,#2A0E3F 0%,${PLUM_DARK} 30%,${PLUM} 60%,#3A1550 100%)`,
       textAlign:"center",position:"relative",overflow:"hidden",
     }}>
-      {/* Dark floral botanical overlay */}
       <div style={{position:"absolute",inset:0,opacity:0.14,pointerEvents:"none"}}>
         <svg style={{width:"100%",height:"100%"}} viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice">
-          <Rose x={80}   y={80}   r={2.2}  rotate={-20} opacity={1}/>
-          <Rose x={40}   y={160}  r={1.4}  rotate={15}  opacity={1}/>
-          <Peony x={180} y={50}   r={1.8}  rotate={-8}  opacity={1} color={ROSE_LIGHT}/>
-          <LeafSprig x={60}  y={30}  r={1.8}  rotate={12} opacity={1}/>
-          <LeafSprig x={150} y={100} r={1.4}  rotate={30} opacity={1}/>
-          <Blossom x={260} y={70}  r={1.4}  rotate={15} opacity={1}/>
-
-          <Rose x={1120}  y={80}  r={2.2}  rotate={20}  opacity={1}/>
-          <Rose x={1160}  y={160} r={1.4}  rotate={-15} opacity={1}/>
-          <Peony x={1020} y={50}  r={1.8}  rotate={8}   opacity={1} color={ROSE_LIGHT}/>
+          <Rose x={80}  y={80}  r={2.2} rotate={-20} opacity={1}/>
+          <Rose x={40}  y={160} r={1.4} rotate={15}  opacity={1}/>
+          <Peony x={180} y={50}  r={1.8} rotate={-8} opacity={1} color={ROSE_LIGHT}/>
+          <LeafSprig x={60}  y={30}  r={1.8} rotate={12} opacity={1}/>
+          <LeafSprig x={150} y={100} r={1.4} rotate={30} opacity={1}/>
+          <Blossom x={260} y={70}  r={1.4} rotate={15} opacity={1}/>
+          <Rose x={1120} y={80}  r={2.2} rotate={20}  opacity={1}/>
+          <Rose x={1160} y={160} r={1.4} rotate={-15} opacity={1}/>
+          <Peony x={1020} y={50}  r={1.8} rotate={8}  opacity={1} color={ROSE_LIGHT}/>
           <LeafSprig x={1140} y={30}  r={1.8} rotate={-12} opacity={1}/>
           <Blossom   x={940}  y={70}  r={1.4} rotate={-15} opacity={1}/>
-
-          <Rose x={80}   y={420} r={2.2}  rotate={20}  opacity={1}/>
+          <Rose x={80}   y={420} r={2.2} rotate={20}  opacity={1}/>
           <LeafSprig x={60}  y={470} r={1.8} rotate={-25} opacity={1}/>
-          <Peony x={180} y={450} r={1.8}  rotate={10}  opacity={1} color={BLUSH}/>
-
-          <Rose x={1120} y={420} r={2.2}  rotate={-20} opacity={1}/>
+          <Peony x={180} y={450} r={1.8} rotate={10}  opacity={1} color={BLUSH}/>
+          <Rose x={1120} y={420} r={2.2} rotate={-20} opacity={1}/>
           <LeafSprig x={1140} y={470} r={1.8} rotate={25} opacity={1}/>
           <Peony x={1020} y={450} r={1.8} rotate={-10} opacity={1} color={BLUSH}/>
-
           <GoldBlossom x={600} y={60}  r={1.2} opacity={0.7}/>
           <GoldBlossom x={600} y={440} r={1.2} opacity={0.7}/>
           <GoldBlossom x={300} y={250} r={1.0} opacity={0.6}/>
@@ -623,15 +636,12 @@ const Countdown = () => {
           ))}
         </svg>
       </div>
-
-      {/* Gold radial glow */}
       <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"700px",height:"500px",background:`radial-gradient(ellipse,${GOLD}14 0%,transparent 65%)`,pointerEvents:"none"}}/>
       <div style={{position:"absolute",top:0,left:0,right:0,height:"1px",background:`linear-gradient(to right,transparent,${GOLD}66,transparent)`}}/>
       <div style={{position:"absolute",bottom:0,left:0,right:0,height:"1px",background:`linear-gradient(to right,transparent,${GOLD}66,transparent)`}}/>
 
       <FadeUp>
         <div style={{position:"relative",zIndex:2}}>
-          {/* Top floral mini-spray */}
           <div style={{display:"flex",justifyContent:"center",marginBottom:8,opacity:0.55}}>
             <svg width="200" height="50" viewBox="0 0 200 50">
               <Rose x={100} y={32} r={0.85} rotate={0}/>
@@ -641,15 +651,14 @@ const Countdown = () => {
               <Blossom x={156} y={28} r={0.65} rotate={25}/>
             </svg>
           </div>
-
-          <p style={{fontFamily:"Lato,sans-serif",fontSize:10,letterSpacing:"0.38em",textTransform:"uppercase",color:`${GOLD_LIGHT}88`,margin:"0 0 8px"}}>
+          {/* FIX 1 — bigger countdown labels */}
+          <p style={{fontFamily:"Lato,sans-serif",fontSize:13,letterSpacing:"0.3em",textTransform:"uppercase",color:`${GOLD_LIGHT}88`,margin:"0 0 8px"}}>
             counting every heartbeat
           </p>
-          <h3 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.8rem,5vw,3.2rem)",fontWeight:600,fontStyle:"italic",color:CREAM,margin:"0 0 52px"}}>
+          <h3 style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(2rem,5vw,3.4rem)",fontWeight:600,fontStyle:"italic",color:CREAM,margin:"0 0 52px"}}>
             Until Our Day
           </h3>
 
-          {/* Timer blocks */}
           <div style={{display:"flex",justifyContent:"center",gap:"clamp(10px,3vw,28px)",flexWrap:"wrap"}}>
             {[{label:"Days",val:time.days},{label:"Hours",val:time.hours},{label:"Minutes",val:time.minutes},{label:"Seconds",val:time.seconds}].map((t,i)=>(
               <div key={i} style={{textAlign:"center"}}>
@@ -669,15 +678,15 @@ const Countdown = () => {
                     {String(t.val??0).padStart(2,"0")}
                   </span>
                 </div>
-                <p style={{fontFamily:"Lato,sans-serif",fontSize:9,letterSpacing:"0.32em",textTransform:"uppercase",color:`${ROSE_LIGHT}99`,margin:0}}>{t.label}</p>
+                {/* FIX 1 — bigger countdown unit labels */}
+                <p style={{fontFamily:"Lato,sans-serif",fontSize:12,letterSpacing:"0.28em",textTransform:"uppercase",color:`${ROSE_LIGHT}99`,margin:0}}>{t.label}</p>
               </div>
             ))}
           </div>
 
-          {/* Date + bottom floral */}
           <div style={{marginTop:48}}>
             <GoldDivider width={220}/>
-            <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1rem,2.5vw,1.35rem)",color:`${GOLD_LIGHT}cc`,margin:"10px 0 16px",letterSpacing:"0.22em"}}>
+            <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.1rem,2.5vw,1.45rem)",color:`${GOLD_LIGHT}cc`,margin:"10px 0 16px",letterSpacing:"0.22em"}}>
               25 · 07 · 2026
             </p>
             <div style={{display:"flex",justifyContent:"center",opacity:0.45}}>
@@ -696,9 +705,42 @@ const Countdown = () => {
   );
 };
 
+const ScrollDownHint = ({visible}) => (
+  <div style={{
+    position:"fixed",
+    left:"50%",
+    bottom:22,
+    transform:visible?"translateX(-50%) translateY(0)":"translateX(-50%) translateY(16px)",
+    opacity:visible?1:0,
+    transition:"opacity 0.35s ease, transform 0.35s ease",
+    zIndex:120,
+    pointerEvents:"none",
+    textAlign:"center",
+  }}>
+    <div style={{
+      fontFamily:"Lato,sans-serif",
+      fontSize:11,
+      letterSpacing:"0.2em",
+      textTransform:"uppercase",
+      color:`${PLUM}cc`,
+      marginBottom:6,
+      textShadow:"0 1px 0 rgba(255,255,255,0.35)",
+    }}>
+      
+    </div>
+    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:2,animation:"scrollHintFloat 1.5s ease-in-out infinite"}}>
+      {[0,1].map(i=>(
+        <svg key={i} width="20" height="12" viewBox="0 0 22 14" style={{opacity:0.9 - i*0.35}}>
+          <path d="M2 2 L11 11 L20 2" fill="none" stroke={GOLD} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ))}
+    </div>
+  </div>
+);
+
 /* ═══════════════ FOOTER ═══════════════ */
 const Footer = () => (
-  <footer style={{background:NAVY,padding:"52px 20px",textAlign:"center",position:"relative",overflow:"hidden"}}>
+  <footer  style={{ display:"none", background:NAVY,padding:"52px 20px",textAlign:"center",position:"relative",overflow:"hidden"}}>
     <div style={{position:"absolute",inset:0,opacity:0.12,pointerEvents:"none"}}>
       <svg style={{width:"100%",height:"100%"}} viewBox="0 0 800 160" preserveAspectRatio="xMidYMid slice">
         <Rose x={60}  y={80} r={1.6} rotate={-15}/>
@@ -724,7 +766,7 @@ const Footer = () => (
       <p style={{fontFamily:"'Cormorant Garamond',Georgia,serif",fontSize:"clamp(1.2rem,3vw,1.6rem)",fontStyle:"italic",color:GOLD,margin:"0 0 8px"}}>
         Abdulrahman &amp; Haneen
       </p>
-      <p style={{fontFamily:"Lato,sans-serif",fontSize:10,letterSpacing:"0.28em",textTransform:"uppercase",color:`${ROSE_LIGHT}55`,margin:0}}>
+      <p style={{fontFamily:"Lato,sans-serif",fontSize:11,letterSpacing:"0.28em",textTransform:"uppercase",color:`${ROSE_LIGHT}55`,margin:0}}>
         25 · 07 · 2026 &nbsp;·&nbsp; Nile Club, Cairo
       </p>
     </div>
@@ -734,6 +776,35 @@ const Footer = () => (
 /* ═══════════════ APP ═══════════════ */
 export default function App() {
   const [opened,setOpened] = useState(false);
+  const [showScrollHint,setShowScrollHint] = useState(false);
+  const [secondPageReady,setSecondPageReady] = useState(false);
+  const [heroResetKey,setHeroResetKey] = useState(0);
+
+  const handleBackToFirstPage = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setShowScrollHint(false);
+    setSecondPageReady(false);
+    setOpened(false);
+    setHeroResetKey((k) => k + 1);
+  };
+
+  useEffect(() => {
+    if (!opened) {
+      setShowScrollHint(false);
+      setSecondPageReady(false);
+      return;
+    }
+
+    const revealTimer = setTimeout(() => setSecondPageReady(true), 1100);
+    const onScroll = () => setShowScrollHint(window.scrollY < 90);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(revealTimer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [opened]);
+
   return (
     <div style={{fontFamily:"Lato,sans-serif",background:CREAM,minHeight:"100vh"}}>
       <style>{`
@@ -742,17 +813,44 @@ export default function App() {
         ::-webkit-scrollbar{width:5px}
         ::-webkit-scrollbar-track{background:${CREAM}}
         ::-webkit-scrollbar-thumb{background:${GOLD}55;border-radius:3px}
+        @keyframes scrollHintFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
       `}</style>
 
-      <div style={{position:"fixed",inset:0,zIndex:100,pointerEvents:opened?"none":"auto",opacity:opened?0:1,transition:"opacity 0.9s ease 1.5s"}}>
-        <EnvelopeHero onOpen={()=>setOpened(true)}/>
+      <div style={{position:"fixed",inset:0,zIndex:100,pointerEvents:opened?"none":"auto",opacity:opened?0:1,transition:"opacity 0.5s ease 0.7s"}}>
+        <EnvelopeHero key={heroResetKey} onOpen={()=>setOpened(true)}/>
       </div>
 
-      <div style={{opacity:opened?1:0,transform:opened?"translateY(0)":"translateY(28px)",transition:"opacity 1.1s ease 0.5s,transform 1.1s ease 0.5s"}}>
+      <div style={{opacity:opened?1:0,transform:opened?"translateY(0)":"translateY(28px)",transition:"opacity 0.8s ease 0.3s,transform 0.8s ease 0.3s"}}>
+        {opened && (
+          <button
+            onClick={handleBackToFirstPage}
+            style={{
+              position:"fixed",
+              top:16,
+              left:16,
+              zIndex:121,
+              fontFamily:"Lato,sans-serif",
+              fontSize:11,
+              letterSpacing:"0.14em",
+              textTransform:"uppercase",
+              color:PLUM,
+              background:"rgba(255,255,255,0.85)",
+              border:`1px solid ${GOLD}88`,
+              borderRadius:999,
+              padding:"9px 14px",
+              cursor:"pointer",
+              boxShadow:"0 6px 18px rgba(92,32,82,0.14)",
+            }}
+          >
+            ←
+          </button>
+        )}
         <InvitationCard/>
         <Countdown/>
         <Footer/>
       </div>
+
+      <ScrollDownHint visible={opened && secondPageReady && showScrollHint}/>
     </div>
   );
 }
